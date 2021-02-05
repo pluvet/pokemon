@@ -22,3 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('teams', 'App\Http\Controllers\TeamController');
 
 Route::apiResource('pokemons', 'App\Http\Controllers\PokemonController');
+
+Route::post('auth/login', 'App\Http\Controllers\AuthController@login');
