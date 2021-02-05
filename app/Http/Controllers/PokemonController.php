@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PokemonRequest;
 use App\Http\Resources\PokemonCollection;
 use App\Models\Pokemon;
 use App\Models\Pokemon as ModelsPokemon;
@@ -9,6 +10,7 @@ use App\Models\Team;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 function Request($name){
 
@@ -23,10 +25,6 @@ function Request($name){
 
 
     } catch (Exception $e) {
-
-       // $response = $e->getResponse();
-       // $responseBodyAsString = json_decode($response->getBody()->getContents());
-       // $responseBodyAsString = json_decode(json_encode($responseBodyAsString), true);
         abort(404, 'pokemon not found');
     }
 
@@ -36,6 +34,10 @@ function Request($name){
 }
 class PokemonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index', 'show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -65,7 +67,7 @@ class PokemonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PokemonRequest $request)
     {
         $this->pokemonExist($request->name);
 
@@ -96,7 +98,7 @@ class PokemonController extends Controller
      * @param  \App\Models\pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function edit(pokemon $pokemon)
+    public function edit(Pokemon $pokemon)
     {
         //
     }
@@ -108,9 +110,16 @@ class PokemonController extends Controller
      * @param  \App\Models\pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, pokemon $pokemon)
+    public function update(Request $request, Pokemon $pokemon)
     {
-        //
+        $team = Team::find($pokemon->team_id);
+        $this->check($team->user_id);
+        $pokemon->update($request->all());
+
+        return response([
+            'res' => true,
+            'data' => 'Pokemon updated'
+        ],200);
     }
 
     /**
@@ -119,9 +128,16 @@ class PokemonController extends Controller
      * @param  \App\Models\pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(pokemon $pokemon)
+    public function destroy(Pokemon $pokemon)
     {
+        $team = Team::find($pokemon->team_id);
+        $this->check($team->user_id);
         $pokemon->delete();
+
+        return response([
+            'res' => true,
+            'data' => 'Pokemon deleted'
+        ],200);
     }
 
     private function pokemonExist($name){
@@ -132,5 +148,13 @@ class PokemonController extends Controller
             abort(404, 'pokemon not found');
         }
     }
+
+    private function check($user){
+
+        if ($user != Auth::id()) {
+            abort(400, 'unauthorized user');
+        }
+    }
+
 
 }

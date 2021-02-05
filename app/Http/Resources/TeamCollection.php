@@ -18,6 +18,7 @@ class TeamCollection extends JsonResource
         return [
             'user_id' => $this->user_id,
             'name' => $this->name,
+            'color' => $this->color,
             'href' => [
                 'team' => route('teams.index') . "/$this->id"
             ]

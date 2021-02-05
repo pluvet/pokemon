@@ -19,6 +19,7 @@ class CreateTeamsTable extends Migration
             references('id')->on('users')->
             onDelete('cascade');
             $table->string('name',30);
+            $table->string('color',15);
             $table->timestamps();
         });
     }

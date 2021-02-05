@@ -19,6 +19,8 @@ class CreatePokemonTable extends Migration
             references('id')->on('teams')->
             onDelete('cascade');
             $table->string('name',30);
+            $table->integer('level');
+            $table->integer('exp');
             $table->timestamps();
         });
     }

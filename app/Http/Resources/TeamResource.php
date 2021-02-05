@@ -17,6 +17,7 @@ class TeamResource extends JsonResource
         return [
             'user_id' => $this->user_id,
             'name' => $this->name,
+            'color' => $this->color,
             'href' => [
                 'pokemons' => route('pokemons.index', "team_id=$this->id")
             ]

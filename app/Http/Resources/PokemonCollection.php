@@ -20,6 +20,8 @@ class PokemonCollection extends JsonResource
             'id' => $this->id,
             'team_id' => $this->team_id,
             'name' => $this->name,
+            'level' => $this->level,
+            'exp' => $this->exp,
             'href' => [
                 'team' => route('pokemons.show', $this->id)
             ]
