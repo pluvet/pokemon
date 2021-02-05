@@ -1,2 +1,2 @@
-release: php artisan migrate && php artisan passport:install
+release: php artisan migrate
 web: vendor/bin/heroku-php-apache2 public/
