@@ -51,10 +51,7 @@ class TeamController extends Controller
 
         $team->save();
 
-        return response([
-            'res' => true,
-            'data' => 'Team Created'
-        ],201);
+        return response($team,201);
     }
 
     /**
@@ -93,10 +90,7 @@ class TeamController extends Controller
 
         $team->update($request->all());
 
-        return response([
-            'res' => true,
-            'data' => 'team Updated'
-        ],201);
+        return response($team,201);
     }
 
     /**
@@ -111,10 +105,7 @@ class TeamController extends Controller
 
         $team->delete();
 
-        return response([
-            'res' => true,
-            'data' => 'team deleted'
-        ],201);
+        return response('',204);
     }
 
     private function TeamUserCheck($team){

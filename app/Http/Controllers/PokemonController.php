@@ -75,10 +75,7 @@ class PokemonController extends Controller
 
         $pokemon->save();
 
-        return response([
-            'res' => true,
-            'data' => 'Pokemon created'
-        ],201);
+        return response($pokemon,201);
     }
 
     /**
@@ -89,7 +86,7 @@ class PokemonController extends Controller
      */
     public function show(pokemon $pokemon)
     {
-        return Request($pokemon->name);
+        return $pokemon;
     }
 
     /**
@@ -116,10 +113,7 @@ class PokemonController extends Controller
         $this->check($team->user_id);
         $pokemon->update($request->all());
 
-        return response([
-            'res' => true,
-            'data' => 'Pokemon updated'
-        ],200);
+        return response($pokemon,200);
     }
 
     /**
@@ -134,10 +128,7 @@ class PokemonController extends Controller
         $this->check($team->user_id);
         $pokemon->delete();
 
-        return response([
-            'res' => true,
-            'data' => 'Pokemon deleted'
-        ],200);
+        return response('',204);
     }
 
     private function pokemonExist($name){
