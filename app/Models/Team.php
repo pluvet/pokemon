@@ -23,7 +23,7 @@ class Team extends Model
 
     public function pokemons(){
 
-        return $this->hasMany(pokemon::class);
+        return $this->hasMany(Pokemon::class);
 
     }
 }
